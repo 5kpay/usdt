@@ -155,13 +155,14 @@ btn.addEventListener('click',function(){
     let time_str = document.getElementById("datetime").value
     let dateArr =  Date.parse(time_str)
     let dateObj = new Date(dateArr);
-    let year = now.getFullYear();
-    let month = String(now.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的
-    let date = String(now.getDate()).padStart(2, '0');
-    let hours = String(now.getHours()).padStart(2, '0');
-    let minutes = String(now.getMinutes()).padStart(2, '0');
+    let year = dateObj.getFullYear();
+    let month = String(dateObj.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的
+    let date = String(dateObj.getDate()).padStart(2, '0');
+    let hours = String(dateObj.getHours()).padStart(2, '0');
+    let minutes = String(dateObj.getMinutes()).padStart(2, '0');
     let datetimeLocalString = year + "年" + month + "月" + date + "日 " + hours + ":" + minutes + ' +0800';
     let datatime = datetimeLocalString
+
     let amount = formatCurrency(document.getElementById("amount").value)
     let from_addr = document.getElementById("from_addr").value
     let to_addr = document.getElementById("to_addr").value
