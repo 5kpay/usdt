@@ -5,9 +5,11 @@
 <meta name = "apple-mobile-web-app-capable" content = "yes" >
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
 <title>Canvas Text on Image</title>
 <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preload" href="PingFangHK-Regular.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <style>
     @font-face {
@@ -15,6 +17,9 @@
     src: url('PingFangHK-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
+}
+body {
+    font-family: 'CustomFont', sans-serif;
 }
 
 </style>
@@ -95,7 +100,7 @@ function drawImageAndText(tranfer_time,amount,from_addr,to_addr,hash) {
 
     }
     ctx.fillStyle = '#090909';
-    ctx.font = '20px  Noto Sans';
+    ctx.font = '20px  CustomFont';
     ctx.textAlign = 'center';
     ctx.fillText(`+ ${amount} USDT`, 214, 480);
     let from_str =''
