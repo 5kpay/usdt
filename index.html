@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name = "apple-mobile-web-app-capable" content = "yes" >
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Canvas Text on Image</title>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    body {
+        font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+</style>
+<body>
+    <label class="input input-bordered flex items-center gap-2 mb-4">
+        转账时间
+        <input type="datetime-local" id="datetime" class="grow" placeholder="输入转账时间" />
+      </label>
+      <label class="input input-bordered flex items-center mb-4 gap-2">
+        转账金额
+        <input type="text" class="grow" id="amount" placeholder="输入转账金额" />
+      </label>
+      <label class="input input-bordered flex items-center mb-4 gap-2">
+        转账钱包
+        <input type="text" class="grow" id="from_addr" placeholder="输入转账钱包" />
+      </label>
+      <label class="input input-bordered flex items-center mb-4 gap-2">
+        收款钱包
+        <input type="text" class="grow" id="to_addr" placeholder="输入收款钱包" />
+      </label>
+      <label class="input input-bordered flex items-center mb-4 gap-2">
+        哈希号码
+        <input type="text" class="grow" id="hash" placeholder="输入哈希号码" />
+      </label>
+<button class="btn btn-primary btn-block" id="btn">生成</button>
+<dialog id="myDialog" class="modal" >
+    <div class="modal-box">
+    <img  width="100%" height="100%" id="img"/>
+   
+<canvas id="myCanvas" style="display: none;" ></canvas>
+</div>
+<form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<script>
+    function formatCurrency(amount) {
+        // 将数字转换为字符串，并保留两位小数
+        let str = amount;
+        // 在小数点前插入逗号作为千位分隔符
+        str = str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return str; // 添加货币符号
+    }
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = String(now.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的
+    var date = String(now.getDate()).padStart(2, '0');
+    var hours = String(now.getHours()).padStart(2, '0');
+    var minutes = String(now.getMinutes()).padStart(2, '0');
+    var datetimeLocalString = year + "-" + month + "-" + date + "T" + hours + ":" + minutes;
+    document.getElementById("datetime").value = datetimeLocalString;
+    
+const canvas = document.getElementById('myCanvas');
+canvas.width = 590
+canvas.height = 1280
+const ctx = canvas.getContext('2d');
+const img = new Image();
+img.src = 'imges/test.jpg'; // 替换为你的图片路径
+/*img.onload = ()=>{
+    drawImageAndText('2025年2月17日 19:35 +0800','TY938iUuxN8sQgDrzA5a46S3rqPZ3ToeaS','TDrL53AHvakxw5rZv11Z6LtW2bXefYCMhj','c691abf62a4cebba9dafc4278bbab6ccc50a7b2985fb2ca7f20a8b8563e04098')
+
+}*/
+ //2025年2月17日 19:35 +0800
+function drawImageAndText(tranfer_time,amount,from_addr,to_addr,hash) {
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    ctx.font = '17px  Noto Sans';
+    //ctx.style.letterSpacing = '2px';
+    ctx.fillStyle = '#94979e';
+    ctx.textAlign = 'left'; // 可以是 'center', 'left', 'right' 等
+    ctx.textBaseline = 'middle'; // 可以是 'top', 'middle', 'bottom', 'alphabetic', 'hanging', 'ideographic' 等
+    //ctx.fillText(tranfer_time, canvas.width / 2, 328); // 文字内容和位置可以根据需要调整
+    let time_length = 0
+    for(let i=0;i<tranfer_time.length;i++){
+        //time_length += ctx.measureText(tranfer_time[i]).width
+        ctx.fillText(tranfer_time[i],170+time_length , 328);
+        time_length += ctx.measureText(tranfer_time[i]).width+0.8
+
+    }
+    ctx.fillStyle = '#090909';
+    ctx.font = '20px  Noto Sans';
+    ctx.textAlign = 'center';
+    ctx.fillText(`+ ${amount} USDT`, 214, 480);
+    let from_str =''
+    for(let i=0;i<from_addr.length;i++){
+        from_str +=from_addr[i]
+        let from_width = ctx.measureText(from_str).width
+        if(from_width>376){
+            ctx.textAlign = 'left'; 
+            ctx.fillText(from_str, 152, 726);
+            let wrap_str = from_addr.substring(i,from_addr.length)
+            ctx.fillText(wrap_str, 152, 750);
+            from_str = ''
+            break
+        }      
+    }
+    let to_str = ''
+    for(let i=0;i<to_addr.length;i++){
+        to_str +=to_addr[i]
+        let to_width = ctx.measureText(to_str).width
+        if(to_width>376){
+            ctx.textAlign = 'left'; 
+            ctx.fillStyle = '#090909';
+            ctx.fillText(to_str, 152, 824);
+            let wrap_str = to_addr.substring(i,to_addr.length)
+            ctx.fillText(wrap_str, 152, 848);
+            to_str = ''
+            break
+        }      
+    }
+
+    let hash_str = ''
+    for(let i=0;i<hash.length;i++){
+        hash_str +=hash[i]
+        let to_width = ctx.measureText(hash_str).width
+        if(to_width>376){
+            ctx.textAlign = 'left'; 
+            ctx.fillStyle = '#090909';
+            ctx.fillText(hash_str, 152, 948);
+            let wrap_str = hash.substring(i,hash.length)
+            ctx.fillText(wrap_str, 152, 974);
+            hash_str = ''
+            break
+        }      
+    }
+    
+    
+   
+}
+const btn = document.getElementById("btn")
+btn.addEventListener('click',function(){
+    //drawImageAndText()
+    let time_str = document.getElementById("datetime").value
+    let dateArr =  Date.parse(time_str)
+    let dateObj = new Date(dateArr);
+    let year = now.getFullYear();
+    let month = String(now.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的
+    let date = String(now.getDate()).padStart(2, '0');
+    let hours = String(now.getHours()).padStart(2, '0');
+    let minutes = String(now.getMinutes()).padStart(2, '0');
+    let datetimeLocalString = year + "年" + month + "月" + date + "日 " + hours + ":" + minutes + ' +0800';
+    let datatime = datetimeLocalString
+    let amount = formatCurrency(document.getElementById("amount").value)
+    let from_addr = document.getElementById("from_addr").value
+    let to_addr = document.getElementById("to_addr").value
+    let hash = document.getElementById("hash").value
+    console.log(amount,from_addr,to_addr,hash)
+
+    document.getElementById('myDialog').showModal();
+    drawImageAndText(datatime,amount,from_addr,to_addr,hash)
+    const dataURL = canvas.toDataURL('image/png')
+    document.getElementById('img').src=dataURL
+//     const dataURL = canvas.toDataURL('image/png')
+//     const downloadLink = document.createElement('a');
+    
+//     downloadLink.href = dataURL; 
+//     downloadLink.target = '_blank'; // 设置链接URL为图像的Data URL
+//     downloadLink.download = 'canvas_image.png'; // 设置下载文件名
+
+// // 触发点击实现下载
+//     downloadLink.click();
+})
+</script>
+</body>
+</html>
