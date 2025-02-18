@@ -10,9 +10,13 @@
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <style>
-    body {
-        font-family: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, sans-serif;
-    }
+    @font-face {
+    font-family: 'CustomFont';
+    src: url('PingFang-HK-W4.otf') format('otf'),
+         url('PingFang-HK-W4.otf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 </style>
 <body>
@@ -78,7 +82,7 @@ img.src = 'imges/test.jpg'; // 替换为你的图片路径
  //2025年2月17日 19:35 +0800
 function drawImageAndText(tranfer_time,amount,from_addr,to_addr,hash) {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    ctx.font = '17px  Noto Sans';
+    ctx.font = '17px  CustomFont';
     //ctx.style.letterSpacing = '2px';
     ctx.fillStyle = '#94979e';
     ctx.textAlign = 'left'; // 可以是 'center', 'left', 'right' 等
@@ -165,15 +169,15 @@ btn.addEventListener('click',function(){
     const dataURL = canvas.toDataURL('image/png')
     document.getElementById('img').src=dataURL
 //     const dataURL = canvas.toDataURL('image/png')
-    const downloadLink = document.createElement('a');
+   // const downloadLink = document.createElement('a');
     
-    downloadLink.href = dataURL; 
-    downloadLink.target = '_blank'; // 设置链接URL为图像的Data URL
-    downloadLink.download = 'canvas_image.png'; // 设置下载文件名
-    document.getElementById('myDialog').showModal();
+    // downloadLink.href = dataURL; 
+    // downloadLink.target = '_blank'; // 设置链接URL为图像的Data URL
+    // downloadLink.download = 'canvas_image.png'; // 设置下载文件名
+     document.getElementById('myDialog').showModal();
 
 // // 触发点击实现下载
-    downloadLink.click();
+    //downloadLink.click();
 })
 </script>
 </body>
