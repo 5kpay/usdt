@@ -160,19 +160,20 @@ btn.addEventListener('click',function(){
     let hash = document.getElementById("hash").value
     console.log(amount,from_addr,to_addr,hash)
 
-    document.getElementById('myDialog').showModal();
+    
     drawImageAndText(datatime,amount,from_addr,to_addr,hash)
     const dataURL = canvas.toDataURL('image/png')
     document.getElementById('img').src=dataURL
 //     const dataURL = canvas.toDataURL('image/png')
-//     const downloadLink = document.createElement('a');
+    const downloadLink = document.createElement('a');
     
-//     downloadLink.href = dataURL; 
-//     downloadLink.target = '_blank'; // 设置链接URL为图像的Data URL
-//     downloadLink.download = 'canvas_image.png'; // 设置下载文件名
+    downloadLink.href = dataURL; 
+    downloadLink.target = '_blank'; // 设置链接URL为图像的Data URL
+    downloadLink.download = 'canvas_image.png'; // 设置下载文件名
+    document.getElementById('myDialog').showModal();
 
 // // 触发点击实现下载
-//     downloadLink.click();
+    downloadLink.click();
 })
 </script>
 </body>
