@@ -84,8 +84,13 @@ img.src = 'imges/test.jpg'; // 替换为你的图片路径
 
 }*/
  //2025年2月17日 19:35 +0800
-function drawImageAndText(tranfer_time,amount,from_addr,to_addr,hash) {
+function drawImageAndText(system_time,tranfer_time,amount,from_addr,to_addr,hash) {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    ctx.font = '22px bold CustomFont';
+    ctx.fillText(system_time,60 , 50)
+    ctx.fillText(system_time,60 , 50)
+    ctx.fillText(system_time,60 , 50)
+    ctx.fillText(system_time,60 , 50)
     ctx.font = '17px  CustomFont';
     //ctx.style.letterSpacing = '2px';
     ctx.fillStyle = '#94979e';
@@ -100,7 +105,7 @@ function drawImageAndText(tranfer_time,amount,from_addr,to_addr,hash) {
 
     }
     ctx.fillStyle = '#090909';
-    ctx.font = '20px  CustomFont';
+    ctx.font = '20px bold CustomFont';
     ctx.textAlign = 'center';
     ctx.fillText(`+ ${amount} USDT`, 214, 480);
     let from_str =''
@@ -169,8 +174,8 @@ btn.addEventListener('click',function(){
     let hash = document.getElementById("hash").value
     console.log(amount,from_addr,to_addr,hash)
 
-    
-    drawImageAndText(datatime,amount,from_addr,to_addr,hash)
+    let system_time = hours+':'+minutes
+    drawImageAndText(system_time,datatime,amount,from_addr,to_addr,hash)
     const dataURL = canvas.toDataURL('image/png')
     document.getElementById('img').src=dataURL
 //     const dataURL = canvas.toDataURL('image/png')
