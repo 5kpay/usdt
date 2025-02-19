@@ -86,7 +86,7 @@ img.src = 'imges/test.jpg'; // 替换为你的图片路径
  //2025年2月17日 19:35 +0800
 function drawImageAndText(system_time,tranfer_time,amount,from_addr,to_addr,hash) {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    ctx.font = '22px bold CustomFont';
+    ctx.font = '22px CustomFont';
     ctx.fillText(system_time,60 , 50)
     ctx.fillText(system_time,60 , 50)
     ctx.fillText(system_time,60 , 50)
@@ -105,8 +105,9 @@ function drawImageAndText(system_time,tranfer_time,amount,from_addr,to_addr,hash
 
     }
     ctx.fillStyle = '#090909';
-    ctx.font = '20px bold CustomFont';
+    ctx.font = '20px CustomFont';
     ctx.textAlign = 'center';
+    ctx.fillText(`+ ${amount} USDT`, 214, 480);
     ctx.fillText(`+ ${amount} USDT`, 214, 480);
     let from_str =''
     for(let i=0;i<from_addr.length;i++){
